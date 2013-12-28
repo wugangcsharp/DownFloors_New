@@ -5,20 +5,39 @@ public class Player : MonoBehaviour
 {
     public static Player player;
     public float moveSpeed;
-    Transform m_transform;
+     
 
+    Transform m_transform;
+    static UISlider slider;
     void Awake()
     {
         player = this;
         m_transform = this.transform;
+        slider = GameObject.Find("HealthBar").GetComponent<UISlider>();
     }
 
     // Update is called once per frame
     void Update()
     {
         Control();
+        if (m_transform.localPosition.y <= -550.5847f)
+        {
+            GameManager.SetCurrentGameState(GameState.GAMEOVER);
+        }
     }
 
+    public static void SetLife(float damange)
+    {
+        if (slider.value <= 0)
+        {
+            GameManager.SetCurrentGameState(GameState.GAMEOVER);
+        }
+        else
+        {
+            slider.value += damange;
+        }
+
+    }
 
     void Control()
     {
